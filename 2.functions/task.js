@@ -1,23 +1,15 @@
 /*Задача 1
-Написать функцию getArrayParams(...arr), которая получает на вход числа, а возвращает минимальное, максимальное и среднее арифметическое значений массива. Используйте rest-параметр для получения произвольного количества аргументов.*/
+Написать функцию getArrayParams(...arr), которая получает на вход числа, а возвращает минимальное, максимальное и среднее арифметическое значений массива.
+Используйте rest-параметр для получения произвольного количества аргументов.*/
 
 function getArrayParams(...arr) {
-	let min = Infinity;
-	let max = -Infinity;
+	let min = Math.min(...arr);
+	let max = Math.max(...arr);
 	let sum = 0;
-
 	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] > max) {
-			max = arr[i]
-		}
-		if (arr[i] < min) {
-			min = arr[i]
-		}
 		sum += arr[i]
 	}
-
 	let avg = Number((sum / arr.length).toFixed(2));
-
 	return {
 		min,
 		max,
@@ -26,7 +18,9 @@ function getArrayParams(...arr) {
 };
 
 /*Задача 2
-Представьте, что у вас есть мясорубка с разными насадками. Мясорубка запускает действие, а сам процесс зависит от того, какая будет насадка. Затем мясорубка применяет насадку ко всему мясу, которое в неё поступает, и выдаёт на выход только самый лучший кусок. Используйте rest-параметр для получения произвольного количества аргументов в каждой насадке.*/
+Представьте, что у вас есть мясорубка с разными насадками. Мясорубка запускает действие, а сам процесс зависит от того, какая будет насадка.
+Затем мясорубка применяет насадку ко всему мясу, которое в неё поступает, и выдаёт на выход только самый лучший кусок.
+Используйте rest-параметр для получения произвольного количества аргументов в каждой насадке.*/
 
 function summElementsWorker(...arr) {
 	if (!arr.length) {
@@ -34,7 +28,7 @@ function summElementsWorker(...arr) {
 	}
 	let sum = 0;
 	for (let i = 0; i < arr.length; i++) {
-		sum = sum + arr[i];
+		sum += arr[i];
 	}
 	return sum;
 };
@@ -53,8 +47,12 @@ function differenceEvenOddWorker(...arr) {
 	let sumEvenElement = 0;
 	let sumOddElement = 0;
 	for (let i = 0; i < arr.length; i++) {
-		arr[i] % 2 === 0 ? sumEvenElement = sumEvenElement + arr[i] : sumOddElement = sumOddElement + arr[i];
-	}
+		if (arr[i] % 2 === 0) {
+			sumEvenElement += arr[i];
+		} else {
+			sumOddElement += arr[i];
+		}
+	};
 	return sumEvenElement - sumOddElement;
 };
 
@@ -71,4 +69,19 @@ function averageEvenElementsWorker(...arr) {
 		}
 	}
 	return sumEvenElement / countEvenElement;
+};
+
+/*Задача 3
+В предыдущем задании вам нужно было написать насадки к мясорубке — преобразователи данных. Теперь необходимо написать саму функцию мясорубки — агрегатор преобразований.
+Напишите функцию makeWork, которая из массива данных и насадки будет возвращать максимальный результат функции насадки.*/
+
+function makeWork(arrOfArr, func) {
+	let maxWorkerResult = -Infinity;
+	for (i = 1; i < arrOfArr.length; i++) {
+		const result = func(...arrOfArr[i]);
+		if (result > maxWorkerResult) {
+			maxWorkerResult = result;
+		};
+	};
+	return maxWorkerResult;
 };
