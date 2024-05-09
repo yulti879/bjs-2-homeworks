@@ -1,19 +1,40 @@
-function Student(name, gender, age) {
-  
-}
+/* Домашнее задание к лекции 4 «Объекты»
+  Задача 1. Инкапсуляция студента
+  Мы хотим инкапсулировать логику работы со студентами в объекты так, чтобы могли создавать студентов,
+  устанавливать им предмет, добавлять оценки, считать средний балл и отчислять.*/
 
-Student.prototype.setSubject = function (subjectName) {
-  
-}
 
-Student.prototype.addMarks = function (...marks) {
+  function Student(name, gender, age) {
+    this.name = name;
+    this.gender = gender;
+    this.age = age;
+    this.marks = [];
+  }
   
-}
-
-Student.prototype.getAverage = function () {
+  let student1 = new Student("Алина", "женский", 27);
+  let student2 = new Student("Андрей", "мужской", 23);
   
-}
-
-Student.prototype.exclude = function (reason) {
+  Student.prototype.setSubject = function(subjectName) {
+    this.subject = subjectName;
+  }
   
-}
+  Student.prototype.addMarks = function(...marks) {
+    if (this.marks) {
+      this.marks.push(...marks);    
+    }  
+  }
+  
+  Student.prototype.getAverage = function() {
+    if (this.marks.length === 0) {
+      return 0
+    } else {
+      let sum = this.marks.reduce((acc, item) => acc + item, 0);
+      return sum / this.marks.length;
+    }
+  }
+  
+  Student.prototype.exclude = function(reason) {
+    delete this.subject;
+    delete this.marks;
+    this.exclude = reason;
+  }
