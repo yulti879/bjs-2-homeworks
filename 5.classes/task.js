@@ -106,3 +106,45 @@ class Library {
         return result;	
     };
 };
+
+
+/*Задача 3. Журнал успеваемости *
+Мы продолжаем совершенствовать журнал успеваемости студентов. Нужно преобразовать код прошлого ДЗ к классам.*/
+
+class Student {
+	constructor(name) {
+		this.name = name;
+		this.marks = {};
+	};
+
+	addMark(mark, subject) {
+		if (mark < 2 || mark > 5) {
+			return;
+		};
+		if (!this.marks[subject]) {
+			this.marks[subject] = [];
+		};
+		this.marks[subject].push(mark);
+	};
+
+	getAverageBySubject(subject) {
+		if (!this.marks[subject] || this.marks[subject].length === 0) {
+			return 0;
+		};
+		let sum = this.marks[subject].reduce((a, b) => a + b, 0);
+		return sum / this.marks[subject].length;
+	};
+
+	getAverage() {
+		if (Object.keys(this.marks).length === 0) {
+			return 0;
+		};
+		let sum = 0;
+		let count = 0;
+		for (let element in this.marks) {
+			sum += this.getAverageBySubject(element);
+			count++;
+		};
+		return sum / count;
+	};
+};
